@@ -1,10 +1,13 @@
 package io.github.lucasiferreira.catalogoapi.service;
 
+import io.github.lucasiferreira.catalogoapi.exceptions.EntidadeExistenteException;
+import io.github.lucasiferreira.catalogoapi.exceptions.EntidadeNaoExisteException;
 import io.github.lucasiferreira.catalogoapi.mapper.ProductMapper;
 import io.github.lucasiferreira.catalogoapi.models.Product;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductResponse;
 import io.github.lucasiferreira.catalogoapi.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +21,16 @@ public class ProductService {
 
     public ProductResponse findById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+                .orElseThrow(() -> new EntidadeNaoExisteException("Produto não encontrado!"));
 
         return mapper.toProductResponse(product);
     }
 
+    @Transactional
     public ProductResponse create(ProductRequest productRequest) {
+        if (productRepository.existsByName(productRequest.name())) {
+            throw new EntidadeExistenteException("Entidade já existente!");
+        }
         Product product = mapper.toEntity(productRequest);
         productRepository.save(product);
         return mapper.toProductResponse(product);

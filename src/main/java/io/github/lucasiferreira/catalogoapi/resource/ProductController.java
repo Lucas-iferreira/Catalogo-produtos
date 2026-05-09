@@ -4,6 +4,7 @@ import io.github.lucasiferreira.catalogoapi.models.records.ProductRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductResponse;
 import io.github.lucasiferreira.catalogoapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,6 +19,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+
         ProductResponse productResponse = productService.findById(id);
         return ResponseEntity.ok(productResponse);
     }
@@ -25,7 +27,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody ProductRequest productRequest) {
         productService.create(productRequest);
-        URI  uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
-        return ResponseEntity.ok().build();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
+        return ResponseEntity.status(HttpStatus.CREATED).location(uri).build();
     }
 }

@@ -1,5 +1,6 @@
 package io.github.lucasiferreira.catalogoapi.service;
 
+import io.github.lucasiferreira.catalogoapi.exceptions.EntidadeNaoExisteException;
 import io.github.lucasiferreira.catalogoapi.models.Category;
 import io.github.lucasiferreira.catalogoapi.models.records.CategoryRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.CategoryResponse;
@@ -14,7 +15,7 @@ public class CategoryService {
 
     public CategoryResponse findById(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+                .orElseThrow(() -> new EntidadeNaoExisteException("Categoria não encontrada!"));
 
         return new CategoryResponse(category.getId(), category.getName());
     }
