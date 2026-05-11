@@ -3,9 +3,11 @@ package io.github.lucasiferreira.catalogoapi.service;
 import io.github.lucasiferreira.catalogoapi.exceptions.EntidadeExistenteException;
 import io.github.lucasiferreira.catalogoapi.exceptions.EntidadeNaoExisteException;
 import io.github.lucasiferreira.catalogoapi.mapper.ProductMapper;
+import io.github.lucasiferreira.catalogoapi.models.Category;
 import io.github.lucasiferreira.catalogoapi.models.Product;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductResponse;
+import io.github.lucasiferreira.catalogoapi.repository.CategoryRepository;
 import io.github.lucasiferreira.catalogoapi.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class ProductService {
     private ProductMapper mapper;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public ProductResponse findById(Long id) {
         Product product = productRepository.findById(id)
@@ -31,7 +35,24 @@ public class ProductService {
         if (productRepository.existsByName(productRequest.name())) {
             throw new EntidadeExistenteException("Entidade já existente!");
         }
+
+        Category category = categoryRepository.findById(productRequest.categoryId())
+                .orElseThrow(() -> new EntidadeNaoExisteException("Categoria não encontrada!"));
+
         Product product = mapper.toEntity(productRequest);
+        product.setCategory(category);
+
+        product = productRepository.save(product);
+        return mapper.toProductResponse(product);
+    }
+
+    @Transactional
+    public ProductResponse update(ProductRequest productRequest, Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new EntidadeNaoExisteException("Produto não encontrado!");
+        }
+        Product product = mapper.toEntity(productRequest);
+
         productRepository.save(product);
         return mapper.toProductResponse(product);
     }
