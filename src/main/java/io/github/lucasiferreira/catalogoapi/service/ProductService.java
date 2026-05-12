@@ -47,13 +47,20 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse update(ProductRequest productRequest, Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new EntidadeNaoExisteException("Produto não encontrado!");
-        }
-        Product product = mapper.toEntity(productRequest);
+    public void update(Long id, ProductRequest productRequest) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoExisteException("Produto não encontrado!"));
+        mapper.updateEntityFromProduct(productRequest, product);
 
+        mapper.toProductResponse(productRepository.save(product));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoExisteException("Produto não encontrado"));
+
+        product.setActive(false);
         productRepository.save(product);
-        return mapper.toProductResponse(product);
     }
 }

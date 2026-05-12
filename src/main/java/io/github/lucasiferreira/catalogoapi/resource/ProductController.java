@@ -30,4 +30,18 @@ public class ProductController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
         return ResponseEntity.status(HttpStatus.CREATED).location(uri).build();
     }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+        productService.update(id, productRequest);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).location(uri).build();
+
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        productService.delete(id);
+    }
 }

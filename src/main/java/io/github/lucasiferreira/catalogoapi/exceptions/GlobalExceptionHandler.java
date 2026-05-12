@@ -12,7 +12,7 @@ import java.time.Instant;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoExisteException.class)
-    public ResponseEntity<ErroResposta> handleException(EntidadeNaoExisteException ex) {
+    public ResponseEntity<ErroResposta> handle404(EntidadeNaoExisteException ex) {
         ErroResposta erro = new ErroResposta(
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntidadeExistenteException.class)
-    public ResponseEntity<ErroResposta> handleException(EntidadeExistenteException ex) {
+    public ResponseEntity<ErroResposta> handle409(EntidadeExistenteException ex) {
         ErroResposta erro = new ErroResposta(
                 HttpStatus.CONFLICT.value(),
                 ex.getMessage(),
