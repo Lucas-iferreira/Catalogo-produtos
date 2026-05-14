@@ -4,6 +4,7 @@ import io.github.lucasiferreira.catalogoapi.models.records.ProductRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.ProductResponse;
 import io.github.lucasiferreira.catalogoapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class ProductController {
 
         ProductResponse productResponse = productService.findById(id);
         return ResponseEntity.ok(productResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ProductResponse>> findAll(@RequestParam int pagina,
+                                                         @RequestParam int tamanho) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(pagina, tamanho));
     }
 
     @PostMapping

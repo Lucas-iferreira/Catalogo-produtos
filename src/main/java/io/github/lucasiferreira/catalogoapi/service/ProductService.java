@@ -11,6 +11,8 @@ import io.github.lucasiferreira.catalogoapi.repository.CategoryRepository;
 import io.github.lucasiferreira.catalogoapi.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +30,11 @@ public class ProductService {
                 .orElseThrow(() -> new EntidadeNaoExisteException("Produto não encontrado!"));
 
         return mapper.toProductResponse(product);
+    }
+
+    public Page<ProductResponse> findAll(int pagina, int tamanho) {
+        Page<Product> productPage = productRepository.findAll(PageRequest.of(pagina, tamanho));
+        return productPage.map(mapper::toProductResponse);
     }
 
     @Transactional
