@@ -1,4 +1,4 @@
-package io.github.lucasiferreira.catalogoapi.resource;
+package io.github.lucasiferreira.catalogoapi.controller;
 
 import io.github.lucasiferreira.catalogoapi.models.records.CategoryRequest;
 import io.github.lucasiferreira.catalogoapi.models.records.CategoryResponse;

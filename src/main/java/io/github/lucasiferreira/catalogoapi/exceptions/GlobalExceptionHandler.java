@@ -3,6 +3,7 @@ package io.github.lucasiferreira.catalogoapi.exceptions;
 import io.github.lucasiferreira.catalogoapi.exceptions.records.ErroResposta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,6 +20,16 @@ public class GlobalExceptionHandler {
                 Instant.now()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErroResposta> handle403(AccessDeniedException ex) {
+        ErroResposta erro = new ErroResposta(
+                HttpStatus.FORBIDDEN.value(),
+                "Acesso negado!",
+                Instant.now()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erro);
     }
 
     @ExceptionHandler(EntidadeExistenteException.class)

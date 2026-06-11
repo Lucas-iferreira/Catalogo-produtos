@@ -40,7 +40,7 @@ public class ProductService {
     @Transactional
     public ProductResponse create(ProductRequest productRequest) {
         if (productRepository.existsByName(productRequest.name())) {
-            throw new EntidadeExistenteException("Entidade já existente!");
+            throw new EntidadeExistenteException("Produto já existente!");
         }
 
         Category category = categoryRepository.findById(productRequest.categoryId())

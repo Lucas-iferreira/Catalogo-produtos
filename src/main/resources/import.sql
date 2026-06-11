@@ -17,3 +17,5 @@ INSERT INTO tb_products (name, description, price, quantity, active, category_id
 INSERT INTO tb_products (name, description, price, quantity, active, category_id) VALUES ('Uva Thompson', 'Sem semente 500g', 12.00, 80, true, 3);
 INSERT INTO tb_products (name, description, price, quantity, active, category_id) VALUES ('Manga Palmer', 'Unidade madura', 4.50, 45, true, 3);
 INSERT INTO tb_products (name, description, price, quantity, active, category_id) VALUES ('Abacaxi Pérola', 'Unidade grande', 7.00, 30, true, 3);
+
+

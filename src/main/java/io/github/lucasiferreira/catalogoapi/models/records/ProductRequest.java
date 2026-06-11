@@ -5,5 +5,6 @@ public record ProductRequest(String name,
                              Double price,
                              Long quantity,
                              boolean active,
-                             Long categoryId) {
+                             Long categoryId
+                             ) {
 }
