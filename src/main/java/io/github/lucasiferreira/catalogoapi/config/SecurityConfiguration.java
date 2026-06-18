@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,5 +49,10 @@ public class SecurityConfiguration {                               //as roles de
     //@Bean
     public UserDetailsService userDetailsService(UsuarioService usuarioService) {
         return new CustomUserDetailsService(usuarioService);
+    }
+
+    @Bean //Esse Bean é utilizado para retirar o padrão de prefixo para autoridades/roles('ROLE_ADMIN') por exemplo
+    public GrantedAuthorityDefaults grantedAuthority() {
+        return new GrantedAuthorityDefaults("");
     }
 }
