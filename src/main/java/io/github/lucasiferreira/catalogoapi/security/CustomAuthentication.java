@@ -1,6 +1,7 @@
 package io.github.lucasiferreira.catalogoapi.security;
 
 import io.github.lucasiferreira.catalogoapi.models.Usuario;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Getter
 public class CustomAuthentication implements Authentication {
 

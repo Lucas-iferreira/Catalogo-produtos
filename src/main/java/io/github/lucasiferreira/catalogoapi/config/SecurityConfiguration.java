@@ -45,7 +45,7 @@ public class SecurityConfiguration {                               //as roles de
         return new BCryptPasswordEncoder(10);
     }
 
-    @Bean
+    //@Bean
     public UserDetailsService userDetailsService(UsuarioService usuarioService) {
         return new CustomUserDetailsService(usuarioService);
     }
